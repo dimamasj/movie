@@ -1,5 +1,6 @@
 .film-info {
   display: flex;
+  flex: 1 0 100%;
   .film-poster {
     flex: 1 0 20%;
   }
@@ -10,14 +11,15 @@
 
 .film-info--short {
   position: relative;
-  margin: 25px 0;
+  margin: 0 0 25px 0;
   padding: 25px;
   background: $main;
-  &:before {
-    content: "";
+  .arrow {
     position: absolute;
+    left: 15px;
     top: -15px;
-    @include triangle('up', $main, 15px)
+    @include triangle('up', $main, 15px);
+    transition: left .5s ease;
   }
   .description {
     margin-bottom: 10px;
@@ -50,4 +52,13 @@
 
 .read-more__link {
   @extend %read-more-link;
+}
+
+.close-info {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 300;
 }
