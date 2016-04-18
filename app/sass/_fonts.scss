@@ -1,0 +1,16 @@
+$font-path: "../../fonts";
+$fonts: AleoBold, AleoRegular;
+
+@each $i in $fonts {
+  @font-face {
+    font-family: $i;
+    src:  url('#{$font-path}/#{$i}.eot');
+    src: url('#{$font-path}/#{$i}.eot?#iefix') format('embedded-opentype'),
+    url('#{$font-path}/#{$i}.woff2') format('woff2'),
+    url('#{$font-path}/#{$i}.woff') format('woff'),
+    url('#{$font-path}/#{$i}.ttf?') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+  }
+}

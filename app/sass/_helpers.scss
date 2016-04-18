@@ -1,0 +1,124 @@
+
+
+@mixin bp($media) {
+  @if $media == small {
+    @media only screen and (max-width: $small) {
+      @content;
+    }
+  } @else if $media == mid {
+    @media only screen and (min-width: $small + 1) and (max-width: $large - 1) {
+      @content;
+    }
+  } @else if $media == wide {
+    @media only screen and (min-width: $large) {
+      @content;
+    }
+  }
+}
+
+//* example :
+/*
+@include bp(small) {
+
+}
+@include bp(mid) {
+
+}
+@include bp(wide) {
+
+}
+*/
+
+$sprite: sprite-map("sprite/*.png", $spacing: 5px);
+//$copiest: sprite-map("copiest/*.png");
+//* example :
+// @include sprite($sprite, arrow);
+//
+// define a sprite map
+$box-padding: 5px;
+
+@mixin sprite($map, $sprite, $vertical-align: false, $horizontal-align: false, $repeat: no-repeat, $height: true, $width: true) {
+  $box-padding: 5px;
+  $icon-spacing: 20px;
+  $sprite-image: sprite-file($map, $sprite);
+  $sprite-map: sprite-url($map);
+  $sprite-position: sprite-position($map, $sprite, 0, 0);
+
+  background: $sprite-map $sprite-position $repeat;
+  @if $height == true {
+    $sprite-height: image-height($sprite-image);
+    $sprite-height-half: -$sprite-height/2;
+    height: $sprite-height;
+    @if $vertical-align == true {
+      margin-top: $sprite-height-half;
+    }
+  }
+
+  @if $width == true {
+    $sprite-width: image-width($sprite-image);
+    width: $sprite-width;
+    $sprite-width-half: -$sprite-width/2;
+    @if $horizontal-align == true {
+      margin-left: $sprite-width-half;
+    }
+  }
+}
+
+@mixin linear-gradient($fromColor, $toColor) {
+  background-color: $toColor; /* Fallback Color */
+  background-image: -webkit-gradient(linear, left top, left bottom, from($fromColor), to($toColor)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, $fromColor, $toColor); /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image: -moz-linear-gradient(top, $fromColor, $toColor); /* FF3.6 */
+  background-image: -ms-linear-gradient(top, $fromColor, $toColor); /* IE10 */
+  background-image: -o-linear-gradient(top, $fromColor, $toColor); /* Opera 11.10+ */
+  background-image: linear-gradient(top, $fromColor, $toColor);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr='$fromColor', EndColorStr='$toColor');
+}
+
+//@mixin colorzilla-gradient($start, $stop, $mode: 1, $optionalcolor: $white) {
+//  @if $mode == 1 {
+//    background-color: $start;
+//    @include filter-gradient($start, $stop, vertical);
+//    @include background-image(linear-gradient(top, $start 0%, $stop 100%));
+//  }
+//  @if $mode == 2 {
+//    background-color: $optionalcolor;
+//    @include filter-gradient($start, $optionalcolor, horizontal);
+//    @include background-image(linear-gradient(left, $start 0%, $optionalcolor 50%, $stop 100%));
+//  }
+//  @if $mode == 3 {
+//    background-color: $start;
+//    background: linear-gradient(135deg, $start 50%, $stop 50%);
+//  }
+//  @if $mode == 4 {
+//    background-color: $start;
+//    background: linear-gradient(45deg, $start 50%, $stop 50%);
+//  }
+//}
+//
+
+
+
+@mixin triangle($direction, $color, $size) {
+
+  @if $direction == "left" {
+    border-bottom: $size solid transparent;
+    border-right: $size solid $color;
+    border-top: $size solid transparent;
+  } @else if $direction == "right" {
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+    border-top: $size solid transparent;
+  } @else if $direction == "up" {
+    border-bottom: $size solid $color;
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+  } @else if $direction == "down" {
+    border-right: $size solid transparent;
+    border-left: $size solid transparent;
+    border-top: $size solid $color;
+  }
+
+  height: 0;
+  width: 0;
+}

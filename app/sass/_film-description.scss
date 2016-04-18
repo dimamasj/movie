@@ -1,0 +1,53 @@
+.film-info {
+  display: flex;
+  .film-poster {
+    flex: 1 0 20%;
+  }
+  .film-desc {
+    flex: 1 0 70%;
+  }
+}
+
+.film-info--short {
+  position: relative;
+  margin: 25px 0;
+  padding: 25px;
+  background: $main;
+  &:before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    @include triangle('up', $main, 15px)
+  }
+  .description {
+    margin-bottom: 10px;
+  }
+  .read-more {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.film-desc__list {
+  margin-bottom: 15px;
+  li {
+    display: flex;
+    line-height: 25px;
+    //color: $white;
+    .desc-title {
+      flex: 1 0 20%;
+      color: $orange;
+    }
+    .desc-text {
+      flex: 1 0 65%;
+    }
+  }
+}
+
+.film-poster {
+  margin-right: 20px;
+}
+
+.read-more__link {
+  @extend %read-more-link;
+}

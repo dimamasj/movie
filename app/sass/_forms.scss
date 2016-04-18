@@ -1,0 +1,20 @@
+input {
+  display: flex;
+  width: 100%;
+  border: 1px solid $dark-gray;
+  border-radius: 3px;
+  color: #4c4145;
+  padding: 9px 19px;
+  &::-webkit-input-placeholder {
+    color: $main;
+  }
+  &:-ms-input-placeholder {
+    color: $main;
+  }
+  &:-moz-placeholder {
+    color: $main;
+  }
+
+}
+
+

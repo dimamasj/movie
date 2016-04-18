@@ -1,0 +1,135 @@
+/*********************************************\
+		Desktop First Method
+\*********************************************/
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width: 1200px) {
+  .films {
+    .film {
+      flex: 1 0 200px;
+    }
+  }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width: 960px) {
+  main {
+    display: flex;
+    flex-direction: column;
+  }
+  .aside-desc {
+    margin-top: 0;
+    flex: 1 0 100%;
+  }
+  .rating {
+    display: none;
+  }
+  .main-content {
+    padding: 31px 0;
+  }
+  .films {
+    justify-content: space-around;
+    .film {
+      flex: 1 0 33%;
+      text-align: center;
+    }
+  }
+  aside {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 960px) and (min-width: 600px) {
+  .main-title {
+    padding: 10px 0 11px 11px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+  }
+  .aside-desc {
+    padding: 38px 0 15px 0;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    section {
+      flex: 2 0 45%;
+    }
+    .h3 {
+      margin-bottom: 7px;
+      padding: 12px;
+      text-align: center;
+    }
+    .avatar-block {
+      img {
+        width: 200px;
+      }
+    }
+  }
+  .aside-list {
+    padding: 0 15px;
+  }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 768px) {
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 599px) {
+  .avatar-block {
+    text-align: center;
+  }
+}
+
+/* Small Devices, From Tablet To Mobile */
+@media only screen and (max-width: 768px) and (min-width: 480px) {
+  .films {
+    .film {
+      flex: 1 0 50%;
+    }
+  }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width: 480px) {
+  .films {
+    .film {
+      flex: 1 0 100%;
+    }
+  }
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width: 320px) {
+
+}
+
+/*********************************************\
+		Mobile First Method
+\*********************************************/
+
+/* Custom, iPhone Retina */
+@media only screen and (min-width: 320px) {
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width: 480px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width: 1200px) {
+
+}
