@@ -96,14 +96,10 @@
             shortList.removeClass('show');
 
             getJson('getPeopleDetail', selectedPersonId, function (data) {
-                console.log(data);
                 personInfo = data;
-
                 avatarBlock.find('img').attr('src', 'http://st.kp.yandex.net/images/' + data.posterURL.replace('90_', '360_'));
-
                 avatarBlock.find('h1').html(selectedPersonName);
                 avatarBlock.find('.load').remove();
-
                 actorInfo.append(preloader);
 
                 var professionArray = data.profession.split(', ');
@@ -174,20 +170,39 @@
      * @param obj
      */
     function getFilmography(obj) {
-        console.log(obj);
-        var colClass;
+        //console.log(obj);
+        var colClass = '',
+            resultToShow = '';
         if (obj.length < 10) {
             colClass = 'col-3'
         }
+
         for (var i = 0; i < obj.length; i++) {
-            $mainList.addClass(colClass).append('' +
-                '<div class="film">' +
+            resultToShow += '<div class="film">' +
                 '<a href="#" data-film-id="' + obj[i].filmID + '">' +
                 '<img src="http://st.kp.yandex.net/images/film_big/' + obj[i].filmID + '.jpg" alt="">' +
                 '</a>' +
-                '</div>' +
-                '');
+                '</div>';
         }
+
+        $mainList.addClass(colClass).append(resultToShow);
+        $mainList.find('img').each(function () {
+            chekingLoadImg($(this));
+        });
+    }
+
+
+    /**
+     * Cheking if img has loaded from API server
+     * @param el
+     * @returns {*}
+     */
+    function chekingLoadImg(el) {
+        el.on('error', function () {
+            el.attr('src', 'http://st.kp.yandex.net/images/movies/poster_none.png');
+            el.closest('.film').addClass('empty-img');
+        });
+        return el;
     }
 
     /**
@@ -195,7 +210,7 @@
      * @param obj
      */
     function getGeneralFilms(obj) {
-        console.log(obj);
+        //console.log(obj);
         var colClass;
         if (obj.length < 10) {
             colClass = 'col-3'
@@ -216,7 +231,7 @@
      * @param obj
      */
     function getGallery(obj) {
-        console.log(obj);
+        //console.log(obj);
         for (var i = 0; i < obj.length; i++) {
             $mainList.append('' +
                 '<div class="gallery">' +
@@ -233,7 +248,7 @@
      * @param obj
      */
     function getTriviaData(obj) {
-        console.log(obj);
+        //console.log(obj);
         for (var i = 0; i < obj.length; i++) {
             $mainList.addClass('trivia-data').append('' +
                 '<p>' + obj[i] + '</p>' +
@@ -253,16 +268,21 @@
             mainContentOffset = $mainList.position().left,
             result = getElementsPerRow(parentElem);
 
-//console.log(parentElem.position());
-
         getJson('getFilm', $filmId, function (data) {
-            console.log(data);
+            //console.log(data);
 
             filmInfoColl.html('').hide();
+            var img = '';
+            if (data.posterURL) {
+                img = 'http://st.kp.yandex.net/images/' + data.posterURL.replace('90_', '360_');
+            } else {
+                img = 'http://st.kp.yandex.net/images/movies/poster_none.png';
+            }
 
             var infoToShow = '<div class="film-poster">' +
-                '<img src="http://st.kp.yandex.net/images/' + data.posterURL.replace('90_', '360_') + '" alt="">' +
+                '<img src="' + img + '" alt="">' +
                 '</div><div class="film-desc">' +
+                '<h3 class="h3">' + data.nameEN + '</h3>' +
                 '<ul class="film-desc__list">' +
                 '<li><span class="desc-title">Year: </span><span class="desc-text">' + data.year + '</span></li>' +
                 '<li><span class="desc-title">Country: </span><span class="desc-text">' + data.country + '</span></li>' +
@@ -273,9 +293,6 @@
                 '<li><span class="desc-title">Film length: </span><span class="desc-text">' + data.filmLength + '</span></li>' +
                 '</ul>' +
                 '<p class="description">' + data.description + '</p>' +
-                '<div class="read-more">' +
-                '<a class="read-more__link" href="#">Read full description</a>' +
-                '</div>' +
                 '</div>' +
                 '<span class="arrow" style="left: ' + (leftOffset - mainContentOffset + parentElemWidth / 2) + 'px"></span>' +
                 '<span class="close-info"><i class="fa fa-times" aria-hidden="true"></i></span>';
@@ -291,7 +308,7 @@
 
 
         getJson('getReviews', $filmId, function (data) {
-            console.log(data);
+            //console.log(data);
             var reviewsList = data.reviews;
 
             if (reviewsList) {
@@ -317,7 +334,7 @@
     function getElementsPerRow(elem) {
         var $this = elem;
         var $elemOffset = $this.offset().top;
-        console.log($this);
+        //console.log($this);
         for (var i = 1; i < 5; i++) {
             if ($this.next().hasClass('film')) {
                 console.log($this.next());

@@ -28,6 +28,11 @@
     display: flex;
     justify-content: flex-end;
   }
+  .h3 {
+    padding: 15px 0;
+    text-align: center;
+    color: $orange;
+  }
 }
 
 .film-desc__list {

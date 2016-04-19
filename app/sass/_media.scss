@@ -101,6 +101,9 @@
       img {
         width: 70%;
       }
+      &.empty-img {
+        display: block;
+      }
     }
     &.col-3 {
       .film {

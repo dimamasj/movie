@@ -188,6 +188,10 @@ figure.rating-item {
     img {
       width: 100%;
     }
+    &.empty-img {
+      display: flex;
+      align-items: center;
+    }
   }
   p {
     margin-bottom: 25px;
