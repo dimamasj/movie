@@ -7,10 +7,16 @@
   aside {
     display: none;
   }
+  #header {
+    padding: 12px 25px 12px 320px;
+  }
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width: 960px) {
+  #header {
+    padding: 12px 25px;
+  }
   main {
     display: block;
   }
@@ -75,6 +81,11 @@
   .avatar-block {
     text-align: center;
   }
+  .list {
+    .film {
+      flex: 1 0 33%;
+    }
+  }
 }
 
 /* Small Devices, From Tablet To Mobile */
@@ -85,8 +96,22 @@
 @media only screen and (max-width: 480px) {
   .list {
     .film {
+      text-align: center;
       flex: 1 0 100%;
+      img {
+        width: 70%;
+      }
     }
+    &.col-3 {
+      .film {
+        flex: 1 0 100%;
+      }
+    }
+  }
+
+  .film-info--short {
+    margin: 0 -25px 25px -25px;
+
   }
   .film-info {
     display: block;
@@ -103,7 +128,11 @@
 
 /* Custom, iPhone Retina */
 @media only screen and (max-width: 320px) {
-
+  //.list {
+  //  .film {
+  //    flex: 1 0 100%;
+  //  }
+  //}
 }
 
 /*********************************************\

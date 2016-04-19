@@ -38,7 +38,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 12px 25px;
+  padding: 12px 265px 12px 320px;
   background: $light-gray;
 }
 
@@ -87,6 +87,11 @@ main {
     padding: 23px 25px 23px 45px;
     margin-bottom: 20px;
     background: $dark-main;
+  }
+  .avatar-block {
+    img {
+      width: 100%;
+    }
   }
 }
 
@@ -171,10 +176,18 @@ figure.rating-item {
     flex-wrap: nowrap;
     justify-content: flex-start;
   }
+  &.col-3 {
+    .film {
+      flex: 1 0 33%;
+    }
+  }
   .film {
     padding: 0 10px;
     margin-bottom: 20px;
-    flex: 1 0 33%;
+    flex: 1 0 25%;
+    img {
+      width: 100%;
+    }
   }
   p {
     margin-bottom: 25px;

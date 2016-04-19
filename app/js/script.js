@@ -18,6 +18,15 @@
 
 
     /**
+     * Show Short Search List on Focus
+     */
+    searchInput.focus(function () {
+        if (searchInput.val().length >= 3) {
+            shortList.addClass('show');
+        }
+    });
+
+    /**
      * AJAX request
      *
      * @param request
@@ -145,12 +154,11 @@
         $this.parent().addClass('active');
 
         $mainList.append(preloader);
-        $mainList.html('').removeClass('trivia-data');
+        $mainList.html('').removeClass('trivia-data col-3');
 
         if ($dataLink === 'filmography') {
             getFilmography(personInfo[$dataLink][0]);
         } else if ($dataLink === 'generalFilms') {
-            console.log(personInfo[$dataLink]);
             getGeneralFilms(personInfo[$dataLink]);
         } else if ($dataLink === 'gallery') {
             getGallery(personInfo[$dataLink]);
@@ -167,8 +175,12 @@
      */
     function getFilmography(obj) {
         console.log(obj);
+        var colClass;
+        if (obj.length < 10) {
+            colClass = 'col-3'
+        }
         for (var i = 0; i < obj.length; i++) {
-            $mainList.append('' +
+            $mainList.addClass(colClass).append('' +
                 '<div class="film">' +
                 '<a href="#" data-film-id="' + obj[i].filmID + '">' +
                 '<img src="http://st.kp.yandex.net/images/film_big/' + obj[i].filmID + '.jpg" alt="">' +
@@ -184,8 +196,12 @@
      */
     function getGeneralFilms(obj) {
         console.log(obj);
+        var colClass;
+        if (obj.length < 10) {
+            colClass = 'col-3'
+        }
         for (var i = 0; i < obj.length; i++) {
-            $mainList.append('' +
+            $mainList.addClass(colClass).append('' +
                 '<div class="film">' +
                 '<a href="#" data-film-id="' + obj[i].filmID + '">' +
                 '<img src="http://st.kp.yandex.net/images/film_big/' + obj[i].filmID + '.jpg" alt="">' +
@@ -233,9 +249,11 @@
             filmInfoColl = $('.list .film-info'),
             parentElem = $this.closest('.film'),
             leftOffset = parentElem.position().left,
+            parentElemWidth = parentElem.width(),
             mainContentOffset = $mainList.position().left,
             result = getElementsPerRow(parentElem);
 
+//console.log(parentElem.position());
 
         getJson('getFilm', $filmId, function (data) {
             console.log(data);
@@ -259,7 +277,7 @@
                 '<a class="read-more__link" href="#">Read full description</a>' +
                 '</div>' +
                 '</div>' +
-                '<span class="arrow" style="left: ' + (leftOffset - mainContentOffset) + 'px"></span>' +
+                '<span class="arrow" style="left: ' + (leftOffset - mainContentOffset + parentElemWidth / 2) + 'px"></span>' +
                 '<span class="close-info"><i class="fa fa-times" aria-hidden="true"></i></span>';
 
             if (result.next().hasClass('film-info')) {
@@ -299,9 +317,9 @@
     function getElementsPerRow(elem) {
         var $this = elem;
         var $elemOffset = $this.offset().top;
-
+        console.log($this);
         for (var i = 1; i < 5; i++) {
-            if ($this.next()) {
+            if ($this.next().hasClass('film')) {
                 console.log($this.next());
                 if ($this.next().offset().top === $elemOffset) {
                     $this = $this.next();
