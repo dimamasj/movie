@@ -95,6 +95,7 @@
 /* Extra Small Devices, Phones */
 @media only screen and (max-width: 480px) {
   .list {
+    justify-content: space-around;
     .film {
       text-align: center;
       flex: 1 0 100%;

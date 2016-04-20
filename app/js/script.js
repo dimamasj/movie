@@ -1,21 +1,25 @@
 (function () {
 
-    var searchInput = $('.search-input'),
+    var mainWrap = $('.main-wrap'),
+        mainBlock = $('main'),
+        searchInput = $('.search-input'),
         shortList = $('.search-list'),
         preloader = $('<div class="load"><div class="preloader"></div></div>'),
         requestsList = {                            //links for API request
             searchPeople: 'searchPeople?keyword',
             getPeopleDetail: 'getPeopleDetail?peopleID',
             getFilm: 'getFilm?filmID',
-            getReviews: 'getReviews?filmID'
+            getReviews: 'getReviews?filmID',
+            getGallery: 'getGallery?filmID',
+            searchFilms: 'searchFilms?keyword'
 
         },
         asideDesc = $('.aside-desc'),
         avatarBlock = $('.avatar-block'),
         actorInfo = $('.actor-info'),
         career = $('.career'),
-        commentBlock = $('aside .comments');
-
+        commentBlock = $('aside .comments'),
+        personInfo = {};    //info about selected person
 
     /**
      * Show Short Search List on Focus
@@ -23,6 +27,15 @@
     searchInput.focus(function () {
         if (searchInput.val().length >= 3) {
             shortList.addClass('show');
+        }
+    });
+
+    searchInput.blur(function () {
+        if (searchInput.val().length < 3) {
+            shortList.removeClass('show');
+            mainWrap.addClass('enter-search');
+            $('#header').addClass('search-form');
+            shortList.html('');
         }
     });
 
@@ -35,7 +48,6 @@
      */
     function getJson(request, searchVal, callback) {
         var url = 'http://api.kinopoisk.cf/' + requestsList[request] + '=' + searchVal;
-        console.log(url);
         $.ajax({
             type: 'GET',
             url: url,
@@ -49,7 +61,6 @@
      * @param data
      */
     function drawingSearchPeople(data) {
-        console.log(data);
         if (data !== null && data.searchPeople) {
             shortList.html("");
             for (var i = 0; i < data.searchPeople.length; i++) {
@@ -62,7 +73,7 @@
                     '</li>');
             }
         } else {
-            shortList.html('<p class="empty">Ничего не надено</p>')
+            shortList.html('<p class="empty">Ничего не найдено</p>')
         }
     }
 
@@ -74,7 +85,6 @@
         window.clearTimeout(timer);
         var $this = $(this),
             searchVal = $this.val().replace(' ', ',');
-        console.log(searchVal);
         if (searchVal.length >= 3) {
             shortList.addClass('show').append(preloader);
             timer = setTimeout(function () {
@@ -84,7 +94,18 @@
     });
 
 
-    var personInfo = {};
+    function initPage() {
+        mainWrap.removeClass('enter-search');
+        $('#header').removeClass('search-form');
+        setTimeout(function () {
+            mainBlock.find('.load').remove();
+            asideDesc.fadeIn('slow');
+            $('.main-content').fadeIn('slow');
+            $('aside').delay(1000).animate({'opacity': 1});
+        }, 1000);
+    }
+
+
     shortList.on('click', 'li', function () {
         var $this = $(this),
             selectedPersonId = $this.data('person-id'),
@@ -97,6 +118,10 @@
 
             getJson('getPeopleDetail', selectedPersonId, function (data) {
                 personInfo = data;
+                if (mainWrap.hasClass('enter-search')) {
+                    initPage();
+                }
+
                 avatarBlock.find('img').attr('src', 'http://st.kp.yandex.net/images/' + data.posterURL.replace('90_', '360_'));
                 avatarBlock.find('h1').html(selectedPersonName);
                 avatarBlock.find('.load').remove();
@@ -112,29 +137,18 @@
                 }
                 actorInfo.find('.load').remove();
 
-                //career.append(preloader);
-
-                if (data.filmography) {
-                    getNumArray(data.filmography);
-                }
-
-
-                if (data.gallery) {
-                    getNumArray(data.gallery);
-                }
-
-                if (data.triviaData) {
-                    getNumArray(data.triviaData);
-                }
-
-                if (data.generalFilms) {
-                    getNumArray(data.generalFilms);
-                }
-
                 for (var j = 0; j < personDataArray.length; j++) {
-                    //console.log(personDataArray[j]);
-                    career.find('a[data-link-type="' + personDataArray[j] + '"] .count').html(getNumArray(data[personDataArray[j]]));
+                    if (data[personDataArray[j]]) {
+                        career.find('a[data-link-type="' + personDataArray[j] + '"] .count').html(getNumArray(data[personDataArray[j]]));
+                    } else {
+                        career.find('a[data-link-type="' + personDataArray[j] + '"] .count').html('0');
+                    }
                 }
+
+                $mainList.html('').removeClass('trivia-data col-3');
+                getFilmography(personInfo.filmography[0]);
+                $('.aside-list li').removeClass('active');
+                $('.aside-list li:first-child').addClass('active');
             });
         }
     });
@@ -170,7 +184,6 @@
      * @param obj
      */
     function getFilmography(obj) {
-        //console.log(obj);
         var colClass = '',
             resultToShow = '';
         if (obj.length < 10) {
@@ -178,14 +191,14 @@
         }
 
         for (var i = 0; i < obj.length; i++) {
-            resultToShow += '<div class="film">' +
+            resultToShow += '<div class="film" style="background-image: url(http://st.kp.yandex.net/images/film_big/' + obj[i].filmID + '.jpg)">' +
                 '<a href="#" data-film-id="' + obj[i].filmID + '">' +
                 '<img src="http://st.kp.yandex.net/images/film_big/' + obj[i].filmID + '.jpg" alt="">' +
                 '</a>' +
                 '</div>';
         }
 
-        $mainList.addClass(colClass).append(resultToShow);
+        $mainList.addClass(colClass).html('').append(resultToShow);
         $mainList.find('img').each(function () {
             chekingLoadImg($(this));
         });
@@ -193,31 +206,17 @@
 
 
     /**
-     * Cheking if img has loaded from API server
-     * @param el
-     * @returns {*}
-     */
-    function chekingLoadImg(el) {
-        el.on('error', function () {
-            el.attr('src', 'http://st.kp.yandex.net/images/movies/poster_none.png');
-            el.closest('.film').addClass('empty-img');
-        });
-        return el;
-    }
-
-    /**
      * Get General films list
      * @param obj
      */
     function getGeneralFilms(obj) {
-        //console.log(obj);
         var colClass;
         if (obj.length < 10) {
             colClass = 'col-3'
         }
         for (var i = 0; i < obj.length; i++) {
             $mainList.addClass(colClass).append('' +
-                '<div class="film">' +
+                '<div class="film" style="background-image: url(http://st.kp.yandex.net/images/film_big/' + obj[i].filmID + '.jpg)">' +
                 '<a href="#" data-film-id="' + obj[i].filmID + '">' +
                 '<img src="http://st.kp.yandex.net/images/film_big/' + obj[i].filmID + '.jpg" alt="">' +
                 '</a>' +
@@ -231,10 +230,9 @@
      * @param obj
      */
     function getGallery(obj) {
-        //console.log(obj);
         for (var i = 0; i < obj.length; i++) {
             $mainList.append('' +
-                '<div class="gallery">' +
+                '<div class="gallery" style="background-image: url(http://st.kp.yandex.net/images/film_big/' + obj[i].preview + '.jpg)">' +
                 '<a href="#" data-gallery-item="http://st.kp.yandex.net/images/' + obj[i].preview + '">' +
                 '<img src="http://st.kp.yandex.net/images/' + obj[i].preview + '" alt="">' +
                 '</a>' +
@@ -248,7 +246,6 @@
      * @param obj
      */
     function getTriviaData(obj) {
-        //console.log(obj);
         for (var i = 0; i < obj.length; i++) {
             $mainList.addClass('trivia-data').append('' +
                 '<p>' + obj[i] + '</p>' +
@@ -257,7 +254,7 @@
     }
 
 
-    $mainList.on('click', 'a', function (e) {
+    $mainList.on('click', '.film a', function (e) {
         e.preventDefault();
         var $this = $(this),
             $filmId = $this.data('film-id'),
@@ -268,9 +265,9 @@
             mainContentOffset = $mainList.position().left,
             result = getElementsPerRow(parentElem);
 
-        getJson('getFilm', $filmId, function (data) {
-            //console.log(data);
+        $this.parent().append(preloader);
 
+        getJson('getFilm', $filmId, function (data) {
             filmInfoColl.html('').hide();
             var img = '';
             if (data.posterURL) {
@@ -304,20 +301,26 @@
                 result.next().html(infoToShow).show();
             }
             $('body').animate({scrollTop: parentElem.position().top}, 'slow');
+
+            $this.parent().find('.load').remove();
         });
 
 
         getJson('getReviews', $filmId, function (data) {
-            //console.log(data);
-            var reviewsList = data.reviews;
-
+            var reviewsList = data.reviews,
+                reviewLength = 10;
+            if (reviewsList.length < reviewLength) {
+                reviewLength = reviewsList.length;
+            }
+            commentBlock.html('');
             if (reviewsList) {
-                commentBlock.html('');
-                for (var i = 0; i < 10; i++) {
+                for (var i = 0; i < reviewLength; i++) {
                     commentBlock.append('' +
                         '<article class="' + reviewsList[i].reviewType + '">' +
                         '<header>' +
+                        '<div class="avatar" style="background-image: url(http://st.kp.yandex.net/images/' + reviewsList[i].reviewAutorImageURL + ')">' +
                         '<img src="http://st.kp.yandex.net/images/' + reviewsList[i].reviewAutorImageURL + '" alt="' + data.reviews[i].reviewAutor + '">' +
+                        '</div>' +
                         '<h4>' + reviewsList[i].reviewAutor + '</h4>' +
                         '</header>' +
                         '<p>' + reviewsList[i].reviewDescription + '</p>' +
@@ -334,10 +337,8 @@
     function getElementsPerRow(elem) {
         var $this = elem;
         var $elemOffset = $this.offset().top;
-        //console.log($this);
         for (var i = 1; i < 5; i++) {
             if ($this.next().hasClass('film')) {
-                console.log($this.next());
                 if ($this.next().offset().top === $elemOffset) {
                     $this = $this.next();
                 }
@@ -369,6 +370,17 @@
         return $counter;
     }
 
+    /**
+     * Cheking if img has loaded from API server
+     * @param el
+     * @returns {*}
+     */
+    function chekingLoadImg(el) {
+        el.on('error', function () {
+            el.attr('src', 'http://st.kp.yandex.net/images/movies/poster_none.png');
+            el.closest('.film').addClass('empty-img').css('background-image', 'url(http://st.kp.yandex.net/images/movies/poster_none.png)')
+        });
+    }
 
     /**
      * Close Film Description
@@ -376,4 +388,24 @@
     $mainList.on('click', '.close-info', function () {
         $(this).closest('.film-info').hide();
     });
+
+
+    /**
+     * Full screen gallery
+     */
+    var fullScreenWrap = $('.full-screen');
+
+    $mainList.on('click', '.gallery a', function (e) {
+        e.preventDefault();
+        var $this = $(this),
+            $imgToShow = $this.data('gallery-item');
+        fullScreenWrap.addClass('active').find('img').attr('src', $imgToShow)
+
+    });
+
+    fullScreenWrap.click(function () {
+        $(this).removeClass('active');
+    })
+
+
 })();

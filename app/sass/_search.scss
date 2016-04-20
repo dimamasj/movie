@@ -1,3 +1,12 @@
+.initial-search {
+  input {
+  padding: 15px;
+  }
+  .search-list {
+    top: 47px;
+  }
+}
+
 .search-form {
   //width: 593px;
   width: 100%;
@@ -16,6 +25,8 @@
   min-height: 39px;
   flex-direction: column;
   background: $main;
+  overflow: auto;
+  height: 300px;
   &.show {
     display: flex;
   }

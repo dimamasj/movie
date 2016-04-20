@@ -11,31 +11,22 @@
     <![endif]-->
 </head>
 <body>
-<div class="main-wrap">
-    <header id="header">
+<div class="main-wrap enter-search">
+    <header id="header" class="initial-search"
+            style="background-image: url(https://images4.alphacoders.com/673/673172.jpg)">
         <form action="#" method="get" class="search-form">
             <div class="search-wrap">
-                <input class="search-input" type="search" placeholder="Search person...">
+                <input class="search-input" type="search" placeholder="Search persons...">
             </div>
-            <ul class="search-list">
-                <!--<li class="search-list__item">-->
-                <!--<a class="search-list__link" href="#">-->
-                <!--<img class="short-search-img"-->
-                <!--src="http://st.kp.yandex.net/images/actor_iphone/iphone60_2207239.jpg"-->
-                <!--alt="">-->
-                <!--<h4 class="search-title"> Name <span class="search-ru-title">Имя</span></h4>-->
-                <!--</a>-->
-                <!--</li>-->
-            </ul>
-            <!--<button class="search-icon" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>-->
+            <ul class="search-list"></ul>
+
         </form>
-        <!--<div class="view-type">-->
-            <!--<i class="fa fa-list active" aria-hidden="true"></i>-->
-            <!--<i class="fa fa-th" aria-hidden="true"></i>-->
-        <!--</div>-->
     </header>
     <main>
-        <div class="aside-desc">
+        <div class="load">
+            <div class="preloader"></div>
+        </div>
+        <div class="aside-desc" style="display: none">
             <div class="avatar-block">
                 <h1 class="main-title">Bla Bla Person</h1>
                 <img class="actor-avatar" src="img/main-avatar.jpg" alt="">
@@ -133,94 +124,8 @@
                 </div>
             </section>
         </div>
-        <div class="main-content">
-            <div class="list">
-                <div class="film" data-filmId = '123455'>
-                    <a href="#">
-                        <img src="http://st.kp.yandex.net/images/film_big/462360.jpg" alt="">
-                    </a>
-                </div>
-                <div class="film">
-                    <img src="http://st.kp.yandex.net/images/film_big/462360.jpg" alt="">
-                </div>
-                <div class="film">
-                    <img src="http://st.kp.yandex.net/images/film_big/462360.jpg" alt="">
-                </div>
-                <!--<div class="film-info film-info&#45;&#45;short">-->
-                    <!--<div class="film-poster">-->
-                        <!--<img src="http://st.kp.yandex.net/images/film_iphone/iphone360_462360.jpg" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="film-desc">-->
-                        <!--<ul class="film-desc__list">-->
-                            <!--<li><span class="desc-title">Year: </span><span class="desc-text">2016</span></li>-->
-                            <!--<li><span class="desc-title">Country: </span><span class="desc-text">Belarus</span></li>-->
-                            <!--<li><span class="desc-title">Producer: </span><span class="desc-text">N.L. BelFilm</span>-->
-                            <!--</li>-->
-                            <!--<li><span class="desc-title">Genre: </span><span class="desc-text">Horror</span></li>-->
-                            <!--<li><span class="desc-title"></span><span class="desc-text"></span></li>-->
-                        <!--</ul>-->
-                        <!--<p class="description">"К 2029 году, благодаря повсеместно распространившимся компьютерным сетям-->
-                            <!--и-->
-                            <!--кибер-технологиям,-->
-                            <!--практически все люди вживили себе разнообразные нейронные имплантаты. Но кибер-технологии-->
-                            <!--принесли и новую опасность для человека: стал возможным так называемый «взлом мозга» и ряд-->
-                            <!--других преступлений, связанный непосредственно с ними.-->
-                            <!--Давно разыскиваемый хакер, которого прозвали Кукловодом, начинает вмешиваться в политику, и-->
-                            <!--тогда «9-й Отдел» Бюро Общественной безопасности, оперотряд полиции, оснащённый по-->
-                            <!--последнему-->
-                            <!--слову техники, получает приказ расследовать это дело и остановить Кукловода."</p>-->
-
-                        <!--<div class="read-more">-->
-                            <!--<a class="read-more__link" href="#">Read full description</a>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<span class="arrow"></span>-->
-                    <!--<span class="close-info"><i class="fa fa-times" aria-hidden="true"></i></span>-->
-                <!--</div>-->
-                <div class="film">
-                    <img src="http://st.kp.yandex.net/images/film_big/462360.jpg" alt="">
-                </div>
-                <div class="film">
-                    <img src="http://st.kp.yandex.net/images/film_big/462360.jpg" alt="">
-                </div>
-                <div class="film">
-                    <img src="http://st.kp.yandex.net/images/film_big/462360.jpg" alt="">
-                </div>
-                <div class="film">
-                    <img src="http://st.kp.yandex.net/images/film_big/462360.jpg" alt="">
-                </div>
-                <div class="film">
-                    <img src="http://st.kp.yandex.net/images/film_big/462360.jpg" alt="">
-                </div>
-                <div class="film">
-                    <img src="http://st.kp.yandex.net/images/film_big/462360.jpg" alt="">
-                </div>
-                <div class="film-info film-info--short">
-                    <div class="film-poster">
-                        <img src="http://st.kp.yandex.net/images/film_iphone/iphone360_462360.jpg" alt="">
-                    </div>
-                    <div class="film-desc">
-                        <ul class="film-desc__list">
-                            <li><span class="desc-title">Year: </span><span class="desc-text">2016</span></li>
-                            <li><span class="desc-title">Country: </span><span class="desc-text">Belarus</span></li>
-                            <li><span class="desc-title">Producer: </span><span class="desc-text">N.L. BelFilm</span>
-                            </li>
-                            <li><span class="desc-title">Genre: </span><span class="desc-text">Horror</span></li>
-                            <li><span class="desc-title"></span><span class="desc-text"></span></li>
-                        </ul>
-                        <p class="description">"К 2029 году, благодаря повсеместно распространившимся компьютерным сетям
-                            и
-                            кибер-технологиям,
-                            практически все люди вживили себе разнообразные нейронные имплантаты. Но кибер-технологии
-                            принесли и новую опасность для человека: стал возможным так называемый «взлом мозга» и ряд
-                            других преступлений, связанный непосредственно с ними.
-                            Давно разыскиваемый хакер, которого прозвали Кукловодом, начинает вмешиваться в политику, и
-                            тогда «9-й Отдел» Бюро Общественной безопасности, оперотряд полиции, оснащённый по
-                            последнему
-                            слову техники, получает приказ расследовать это дело и остановить Кукловода."</p>
-                    </div>
-                </div>
-            </div>
+        <div class="main-content" style="display: none">
+            <div class="list"></div>
         </div>
         <aside>
             <h3>Last comments</h3>
@@ -271,7 +176,10 @@
             </div>
         </aside>
     </main>
-    <footer id="footer"></footer>
+    <footer id="footer" style="display: none"></footer>
+</div>
+<div class="full-screen">
+    <img src="http://st.kp.yandex.net/images/kadr/sm_1807394.jpg" alt="">
 </div>
 
 <script src="js/jquery-2.2.2.js"></script>
